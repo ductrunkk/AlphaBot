@@ -7,7 +7,9 @@
       },
       "includePath": [
         "/opt/ros/humble/include/**",
-        "/home/rospital/robotTRUNG_ws/src/robot_description/include/**",
+        "/home/ken/alphabot_ws/src/robot_controller/include/**",
+        "/home/ken/alphabot_ws/src/robot_localize/include/**",
+        "/home/ken/alphabot_ws/src/robot_sensor/include/**",
         "/usr/include/**"
       ],
       "name": "ros2",
