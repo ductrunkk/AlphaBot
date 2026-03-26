@@ -43,7 +43,7 @@ This repository is organized as multiple ROS 2 packages:
 From the repository root:
 
 ```bash
-cd /home/runner/work/AlphaBot/AlphaBot
+cd <your_ros2_workspace>/AlphaBot
 ```
 
 Install ROS dependencies:
