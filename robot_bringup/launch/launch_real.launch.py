@@ -10,7 +10,7 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
     hardware_interface = IncludeLaunchDescription(
         os.path.join(
-            get_package_share_directory("robot_bringup"),
+            get_package_share_directory("robot_firmware"),
             "launch",
             "hardware_interface.launch.py"
         ),
@@ -27,6 +27,18 @@ def generate_launch_description():
             )],
             output="screen"
     )
+    
+    camera_driver = Node(
+        package="usb_cam",
+        executable="usb_cam_node_exe", 
+        name="usb_cam_node",
+        parameters=[os.path.join(
+            get_package_share_directory("robot_bringup"),
+            "config",
+            "webcam.yaml"
+        )],
+        output="screen"
+    )
 
     controller = IncludeLaunchDescription(
         os.path.join(
@@ -37,6 +49,11 @@ def generate_launch_description():
         launch_arguments={
             "use_simple_controller": "False",
         }.items(),
+    )
+    
+    imu_driver_node = Node(
+        package="robot_firmware",
+        executable="mpu6050_driver.py"
     )
     
     joystick = IncludeLaunchDescription(
@@ -54,5 +71,7 @@ def generate_launch_description():
         hardware_interface,
         controller,
         laser_driver,
+        camera_driver,
+        imu_driver_node,
         joystick
     ])

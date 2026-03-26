@@ -1,6 +1,6 @@
 controller_manager:
   ros__parameters:
-    update_rate: 10 # Hz
+    update_rate: 100 # Hz
 
     robot_controller:
       type: diff_drive_controller/DiffDriveController
@@ -13,12 +13,12 @@ controller_manager:
 
 robot_controller:
   ros__parameters:
-    left_wheel_names: ["WL"]
-    right_wheel_names: ["WR"]
+    left_wheel_names: ["wheel_left_joint"]
+    right_wheel_names: ["wheel_right_joint"]
 
-    wheel_separation: 0.24651
+    wheel_separation: 0.17
     #wheels_per_side: 1  # actually 2, but both are controlled by 1 signal
-    wheel_radius: 0.034 
+    wheel_radius: 0.033
 
     wheel_separation_multiplier: 1.0
     left_wheel_radius_multiplier: 1.0
@@ -71,5 +71,5 @@ robot_controller:
 simple_velocity_controller:
   ros__parameters:
     joints:
-      - WL
-      - WR
+      - wheel_left_joint
+      - wheel_right_joint

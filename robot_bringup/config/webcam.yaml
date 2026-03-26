@@ -1,0 +1,9 @@
+usb_cam_node:
+  ros__parameters:
+    video_device: "/dev/video0"    
+    framerate: 30.0                
+    image_width: 320               
+    image_height: 240             
+    pixel_format: "yuyv"           
+    camera_name: "my_webcam"
+    camera_frame_id: "rgb_cam_camera_link_frame" 

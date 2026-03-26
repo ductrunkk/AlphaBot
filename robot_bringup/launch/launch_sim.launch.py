@@ -28,6 +28,13 @@ def generate_launch_description():
         }.items(),
     )
     
+    safety_stop = Node(
+        package="robot_utils",
+        executable="safety_stop",
+        output="screen",
+        parameters=[{"use_sim_time": True}]
+    )
+    
     joystick = IncludeLaunchDescription(
         os.path.join(
             get_package_share_directory("robot_bringup"),
@@ -38,11 +45,11 @@ def generate_launch_description():
             "use_sim_time": "True"
         }.items()
     )
-
-
+    
 
     return LaunchDescription([
         gazebo,
         controller,
-        joystick
+        joystick,
+        safety_stop
     ])

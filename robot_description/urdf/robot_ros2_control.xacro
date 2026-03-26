@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="alphabot">
     <transmission name="right_wheel_trans">
         <type>transmission_interface/SimpleTransmission</type>
-        <joint name="WR">
+        <joint name="wheel_right_joint">
             <hardwareInterface>hardware_interface::HW_IF_VELOCITY</hardwareInterface>
         </joint>
         <actuator name="right_wheel_motor">
@@ -12,7 +12,7 @@
     </transmission>
     <transmission name="left_wheel_trans">
         <type>transmission_interface/SimpleTransmission</type>
-        <joint name="WL">
+        <joint name="wheel_left_joint">
             <hardwareInterface>hardware_interface::HW_IF_VELOCITY</hardwareInterface>
         </joint>
         <actuator name="left_wheel_motor">
@@ -30,12 +30,12 @@
         <xacro:unless value="$(arg is_sim)">
             <hardware>
                 <plugin>robot_firmware/RobotInterface</plugin>
-                <param name="port">/dev/arduino_uno</param>
+                <param name="port">/dev/ttyUSB0</param>
             </hardware>
         </xacro:unless>
 
             <!-- ros2_control Common Interfaces -->
-        <joint name="WR">
+        <joint name="wheel_right_joint">
             <command_interface name="velocity">
             <param name="min">-5</param>
             <param name="max">5</param>
@@ -44,7 +44,7 @@
             <state_interface name="velocity" />
         </joint>
 
-        <joint name="WL">
+        <joint name="wheel_left_joint">
             <command_interface name="velocity">
             <param name="min">-5</param>
             <param name="max">5</param>
