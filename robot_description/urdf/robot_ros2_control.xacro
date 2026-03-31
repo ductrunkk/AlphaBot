@@ -30,7 +30,7 @@
         <xacro:unless value="$(arg is_sim)">
             <hardware>
                 <plugin>robot_firmware/RobotInterface</plugin>
-                <param name="port">/dev/ttyUSB0</param>
+                <param name="port">/dev/arduino_nano</param>
             </hardware>
         </xacro:unless>
 

@@ -25,7 +25,9 @@ def generate_launch_description():
                 "config",
                 "rplidar_a1.yaml"
             )],
-            output="screen"
+            output="screen",
+            respawn=True,
+            respawn_delay=5.0
     )
     
     camera_driver = Node(
