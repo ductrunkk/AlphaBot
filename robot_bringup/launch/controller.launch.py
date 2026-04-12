@@ -39,11 +39,11 @@ def generate_launch_description():
     )
     wheel_radius_arg = DeclareLaunchArgument(
         "wheel_radius",
-        default_value="0.0325",
+        default_value="0.033",
     )
     wheel_separation_arg = DeclareLaunchArgument(
         "wheel_separation",
-        default_value="0.2685",
+        default_value="0.17",
     )
     wheel_radius_error_arg = DeclareLaunchArgument(
         "wheel_radius_error",
@@ -103,7 +103,7 @@ def generate_launch_description():
         ]
     )
 
-    noisy_controller_launch = OpaqueFunction(function=noisy_controller)
+    # noisy_controller_launch = OpaqueFunction(function=noisy_controller)
 
     return LaunchDescription(
         [
@@ -116,6 +116,6 @@ def generate_launch_description():
             joint_state_broadcaster_spawner,
             wheel_controller_spawner,
             simple_controller,
-            noisy_controller_launch,
+            #noisy_controller_launch,
         ]
     )

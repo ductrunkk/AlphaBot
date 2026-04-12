@@ -5,7 +5,7 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
-
+from sensor_msgs.msg import Image, CompressedImage
 from yolov8_msgs.msg import InferenceResult
 from yolov8_msgs.msg import Yolov8Inference
 
@@ -19,7 +19,7 @@ class Camera_subscriber(Node):
         import os
         from ament_index_python.packages import get_package_share_directory
 
-        self.declare_parameter('model', 'yolov8n.pt')
+        self.declare_parameter('model', 'yolo8nfinetune.pt')
         model_name = self.get_parameter('model').get_parameter_value().string_value
 
         try:
@@ -35,8 +35,8 @@ class Camera_subscriber(Node):
         self.yolov8_inference = Yolov8Inference()
 
         self.subscription = self.create_subscription(
-            Image,
-            'rgb_cam/image_raw',
+            CompressedImage,
+            '/image_raw/compressed',
             self.camera_callback,
             10)
         self.subscription 
@@ -46,11 +46,12 @@ class Camera_subscriber(Node):
 
     def camera_callback(self, data):
 
-        img = bridge.imgmsg_to_cv2(data, "bgr8")
+        img = bridge.compressed_imgmsg_to_cv2(data, "bgr8")
         results = self.model(img)
 
         self.yolov8_inference.header.frame_id = "inference"
-        self.yolov8_inference.header.stamp = camera_subscriber.get_clock().now().to_msg()
+        self.yolov8_inference.header.stamp = self.get_clock().now().to_msg()
+        # self.yolov8_inference.header.stamp = camera_subscriber.get_clock().now().to_msg()
 
         for r in results:
             boxes = r.boxes
@@ -59,10 +60,10 @@ class Camera_subscriber(Node):
                 b = box.xyxy[0].to('cpu').detach().numpy().copy()  # get box coordinates in (top, left, bottom, right) format
                 c = box.cls
                 self.inference_result.class_name = self.model.names[int(c)]
-                self.inference_result.top = int(b[0])
-                self.inference_result.left = int(b[1])
-                self.inference_result.bottom = int(b[2])
-                self.inference_result.right = int(b[3])
+                self.inference_result.left = int(b[0])
+                self.inference_result.top = int(b[1])
+                self.inference_result.right = int(b[2])
+                self.inference_result.bottom = int(b[3])
                 self.yolov8_inference.yolov8_inference.append(self.inference_result)
 
             #camera_subscriber.get_logger().info(f"{self.yolov8_inference}")

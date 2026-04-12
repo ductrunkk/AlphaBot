@@ -45,6 +45,12 @@ class Yolo_subscriber(Node):
 
     def yolo_callback(self, data):
         global img
+        
+        if 'img' not in globals() or img is None:
+            return
+        
+        img_draw = img.copy()
+        
         for r in data.yolov8_inference:
         
             class_name = r.class_name
@@ -52,12 +58,14 @@ class Yolo_subscriber(Node):
             left = r.left
             bottom = r.bottom
             right = r.right
-            yolo_subscriber.get_logger().info(f"{self.cnt} {class_name} : {top}, {left}, {bottom}, {right}")
-            cv2.rectangle(img, (top, left), (bottom, right), (255, 255, 0))
+            
+            self.get_logger().info(f"[{self.cnt}] {class_name} : left={left}, top={top}, right={right}, bottom={bottom}")
+            
+            cv2.rectangle(img_draw, (left, top), (right, bottom), (255, 255, 0))
             self.cnt += 1
 
         self.cnt = 0
-        img_msg = bridge.cv2_to_imgmsg(img)  
+        img_msg = bridge.cv2_to_imgmsg(img_draw, encoding="bgr8")
         self.img_pub.publish(img_msg)
 
 if __name__ == '__main__':
